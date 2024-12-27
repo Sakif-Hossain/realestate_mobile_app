@@ -1,15 +1,34 @@
 import images from "@/constants/images";
 import React from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureResponderEvent } from "react-native";
 import icons from "@/constants/icons";
+import { login } from "@/lib/appwrite";
+import { useGlobalContext } from "@/lib/global-provider";
+import { Redirect } from "expo-router";
 
 const SignIn = () => {
-  function handleLogin(event: GestureResponderEvent): void {
-    // Implement Google Sign-In logic here
-    console.log("Google Sign-In button pressed");
-    // Example: Redirect to Google Sign-In page or use Google Sign-In SDK
+  const { refetch, isLoggedIn, loading } = useGlobalContext();
+
+  if (!loading && isLoggedIn) return <Redirect href="/" />;
+
+  async function handleLogin() {
+    const result = await login();
+
+    if (result) {
+      refetch();
+      console.log("login successfull");
+    } else {
+      Alert.alert("Error", "Failed to login");
+    }
   }
   return (
     <SafeAreaView className="bg-accent-100 h-full">
