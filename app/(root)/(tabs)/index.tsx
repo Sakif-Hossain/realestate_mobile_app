@@ -3,9 +3,13 @@ import { Filter } from "@/components/Filters";
 import Search from "@/components/Search";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
+import { getLatestProperties, getProperties } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
-import { Link } from "expo-router";
+import { useAppwrite } from "@/lib/useAppwrite";
+import { Link, router, useLocalSearchParams } from "expo-router";
+import { useEffect } from "react";
 import {
+  Button,
   FlatList,
   Image,
   ScrollView,
@@ -14,14 +18,51 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+// import seed from "@/lib/seeds";
 
 export default function Index() {
   const { user } = useGlobalContext();
+  const params = useLocalSearchParams<{ query?: string; filter?: string }>();
+
+  const handleCardPress = (id: string) => {
+    router.push(`/properties/${id}`);
+  };
+
+  const { data: latestProperties, loading: latestPropertiesLoading } =
+    useAppwrite({
+      fn: getLatestProperties,
+    });
+
+  const {
+    data: properties,
+    loading: propertiesLoading,
+    refetch,
+  } = useAppwrite({
+    fn: getProperties,
+    params: {
+      filter: params.filter!,
+      query: params.query!,
+      limit: 6,
+    },
+    skip: true,
+  });
+
+  useEffect(() => {
+    refetch({
+      filter: params.filter!,
+      query: params.query!,
+      limit: 6,
+    });
+  }, [params.filter, params.query]);
+
   return (
     <SafeAreaView className="h-full bg-white">
+      {/* <Button title="seed" onPress={seed} /> */}
       <FlatList
-        data={[1, 2, 3, 4, 5, 6, 7, 8]}
-        renderItem={({ item }) => <Card />}
+        data={properties}
+        renderItem={({ item }) => (
+          <Card item={item} onPress={() => handleCardPress(item.$id)} />
+        )}
         keyExtractor={(item) => item.toString()}
         numColumns={2}
         contentContainerClassName="pb-32"
@@ -59,8 +100,13 @@ export default function Index() {
                 </TouchableOpacity>
               </View>
               <FlatList
-                data={[1, 2, 3, 4]}
-                renderItem={({ item }) => <FeaturedCard />}
+                data={latestProperties}
+                renderItem={({ item }) => (
+                  <FeaturedCard
+                    item={item}
+                    onPress={() => handleCardPress(item.$id)}
+                  />
+                )}
                 keyExtractor={(item) => item.toString()}
                 horizontal
                 showsHorizontalScrollIndicator={false}
