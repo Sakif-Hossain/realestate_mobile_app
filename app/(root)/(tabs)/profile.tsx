@@ -1,3 +1,4 @@
+import { BackButton } from "@/components/BackButton";
 import { settings } from "@/constants/data";
 import icons from "@/constants/icons";
 import images from "@/constants/images";
@@ -71,6 +72,7 @@ const Profile = () => {
         contentContainerClassName="pb-32 px-5"
       >
         <View className="flex flex-row items-center justify-between mt-5">
+          <BackButton />
           <Text className="text-xl font-bold">Profile</Text>
           <Image source={icons.bell} className="size-5" />
         </View>

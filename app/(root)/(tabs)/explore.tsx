@@ -1,3 +1,4 @@
+import { BackButton } from "@/components/BackButton";
 import { Card, FeaturedCard } from "@/components/Cards";
 import { Filter } from "@/components/Filters";
 import { NoResult } from "@/components/NoResults";
@@ -75,14 +76,9 @@ export default function Explore() {
         ListHeaderComponent={
           <View className="px-5">
             <View className="flex flex-row items-center justify-between mt-5">
-              <TouchableOpacity
-                onPress={() => router.back()}
-                className="flex flex-row bg-primary-200 rounded-full size-11 items-center justify-center"
-              >
-                <Image source={icons.backArrow} className="size-5" />
-              </TouchableOpacity>
-              <Text className="text-base mr-2 text-center font-medium text-black-200">
-                Search for your Ideal Home
+              <BackButton />
+              <Text className="mr-2 text-center text-black-200 text-xl font-bold">
+                Explore
               </Text>
               <Image source={icons.bell} className="w-6 h-6" />
             </View>
