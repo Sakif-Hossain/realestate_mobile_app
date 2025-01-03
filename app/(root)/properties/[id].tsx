@@ -16,26 +16,6 @@ import { Comment } from "@/components/Comment";
 import { useAppwrite } from "@/lib/useAppwrite";
 import { getPropertyById } from "@/lib/appwrite";
 
-// Create dummy gallery data
-const dummyGallery = [
-  {
-    $id: "1",
-    image: "https://picsum.photos/400/400?random=1",
-  },
-  {
-    $id: "2",
-    image: "https://picsum.photos/400/400?random=2",
-  },
-  {
-    $id: "3",
-    image: "https://picsum.photos/400/400?random=3",
-  },
-  {
-    $id: "4",
-    image: "https://picsum.photos/400/400?random=4",
-  },
-];
-
 enum FacilitiesType {
   Parking = "Parking",
   Gym = "Gym",
