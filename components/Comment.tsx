@@ -7,16 +7,18 @@ export const Comment = ({
   avatar,
   review,
   likes,
+  createdAt,
 }: {
   name: string;
   avatar: any;
   review: string;
   likes: number;
+  createdAt: string;
 }) => {
   return (
     <View className="flex flex-col items-start">
       <View className="flex flex-row items-center mt-7">
-        <Image source={images.avatar} className="size-14 rounded-full" />
+        <Image source={{ uri: avatar }} className="size-14 rounded-full" />
         <Text className="text-base text-black-300 text-start font-bold ml-3">
           {name}
         </Text>
@@ -37,7 +39,9 @@ export const Comment = ({
             {likes}
           </Text>
         </View>
-        <Text className="text-black-100 text-sm font-normal">6 days ago</Text>
+        <Text className="text-black-100 text-sm font-normal">
+          {new Date(createdAt).toDateString()}
+        </Text>
       </View>
     </View>
   );
